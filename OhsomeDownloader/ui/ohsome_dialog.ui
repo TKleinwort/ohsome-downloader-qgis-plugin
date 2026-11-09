@@ -15,6 +15,13 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
+    <widget class="QLineEdit" name="lineEdit">
+     <property name="placeholderText">
+      <string>Input your API-Key here ...</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QPushButton" name="PushButtonDownload">
      <property name="text">
       <string>Download</string>
