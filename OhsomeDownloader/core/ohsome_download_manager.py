@@ -9,7 +9,7 @@ class OhsomeDownloadManager:
     OHSOME_BASE_URL = "https://api.heigit.org/ohsome-api/v2-rc"
     EXTRACTION_ENDPOINT = "extraction/features.parquet"
     HARDCODE_BODY = {
-        "aoi": [8.622, 8.802, 49.380, 49.440],
+        "aoi": [8.622, 49.380, 8.802, 49.440],
         "filter": "building=* and building!=no and geometry:polygon",
         "time": "latest",
         "clip": True,

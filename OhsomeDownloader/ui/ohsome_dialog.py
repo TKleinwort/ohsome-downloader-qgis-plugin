@@ -24,7 +24,7 @@ class OhsomeDialog(QDialog, FORM_CLASS):
         QgsSettings().setValue("ohsome/api_key", api_key_entry or "")
         try:
             data = self.manager.fetch_data(api_key = api_key_entry)
-            layer = self.manager.reply_to_layer(data)
+            layer = self.manager.reply_to_layer(data, "ohsome_buildings_heidelberg")
             QgsProject.instance().addMapLayer(layer)
         except Exception as exc:
             self.iface.messageBar().pushCritical("ohsome", str(exc))
