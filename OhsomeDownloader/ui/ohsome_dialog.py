@@ -1,7 +1,7 @@
 import os
 from qgis.PyQt import uic
 from qgis.PyQt.QtWidgets import QDialog
-from qgis.core import QgsProject
+from qgis.core import QgsProject, QgsSettings
 from ..core.ohsome_download_manager import OhsomeDownloadManager
 
 FORM_CLASS, _ = uic.loadUiType(
@@ -15,11 +15,13 @@ class OhsomeDialog(QDialog, FORM_CLASS):
         self.iface = iface
         self.manager = OhsomeDownloadManager
 
+        self.lineEditApiKey.setText(QgsSettings().value("ohsome/api_key", ""))
         self.PushButtonDownload.clicked.connect(self.pushed_download)
         self.PushButtonClose.clicked.connect(self.close)
 
     def pushed_download(self):
         api_key_entry = self.LineEditApiKey.text().strip() or None
+        QgsSettings().setValue("ohsome/api_key", api_key_entry or "")
         try:
             data = self.manager.fetch_data(api_key = api_key_entry)
             layer = self.manager.reply_to_layer(data)
