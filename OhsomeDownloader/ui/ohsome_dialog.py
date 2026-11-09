@@ -15,6 +15,7 @@ class OhsomeDialog(QDialog, FORM_CLASS):
         self.iface = iface
         self.manager = OhsomeDownloadManager
 
+        self.PushButtonDownload.clicked.connect(self.pushed_download)
         self.PushButtonClose.clicked.connect(self.close)
 
     def pushed_download(self):
