@@ -7,7 +7,7 @@ from osgeo import gdal
 
 class OhsomeDownloadManager:
     OHSOME_BASE_URL = "https://api.heigit.org/ohsome-api/v2-rc"
-    EXTRACTION_ENDPOINT = "extraction/features.parquet"
+    OHSOME_EXTRACTION_ENDPOINT = "extraction/features.parquet"
     HARDCODE_BODY = {
         "aoi": [8.622, 49.380, 8.802, 49.440],
         "filter": "building=* and building!=no and geometry:polygon",
@@ -15,12 +15,11 @@ class OhsomeDownloadManager:
         "clip": True,
     }
 
-    def __init__(self, base_url=OHSOME_BASE_URL):
-        self.base_url = base_url
+    def __init__(self):
         self._request_counter = 0
 
     def fetch_data(self, api_key):
-        complete_url = f"{self.OHSOME_BASE_URL}/{self.EXTRACTION_ENDPOINT}"
+        complete_url = f"{self.OHSOME_BASE_URL}/{self.OHSOME_EXTRACTION_ENDPOINT}"
 
         request = QNetworkRequest(QUrl(complete_url))
         request.setHeader(
