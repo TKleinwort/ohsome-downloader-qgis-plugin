@@ -1,7 +1,6 @@
 import os
 from qgis.PyQt import uic
 from qgis.PyQt.QtWidgets import QDialog
-from ..core.ohsome_download_manager import OhsomeDownloadManager
 
 
 FORM_CLASS, _ = uic.loadUiType(
@@ -13,3 +12,5 @@ class OhsomeDialog(QDialog, FORM_CLASS):
         super().__init__(parent)
         self.setupUi(self)
         self.iface = iface
+
+        self.PushButtonClose.clicked.connect(self.close)
