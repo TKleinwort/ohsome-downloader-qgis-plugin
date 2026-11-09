@@ -1,7 +1,7 @@
 import os
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction, QMessageBox
-
+from .ui.ohsome_dialog import OhsomeDialog
 
 class OhsomeDownloaderPlugin:
     def __init__(self, iface):
@@ -21,4 +21,5 @@ class OhsomeDownloaderPlugin:
         del self.action
 
     def run(self):
-        QMessageBox.information(None, "Ohsome Downloader Plugin", "Tests")
+        self.dlg = OhsomeDialog(self.iface)
+        self.dlg.show()
