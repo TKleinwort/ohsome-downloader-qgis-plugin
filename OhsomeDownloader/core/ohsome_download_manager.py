@@ -37,7 +37,7 @@ class OhsomeDownloadManager:
 
         return bytes(blocking_request.reply().content())
 
-    def repley_to_layer(self, reply_data, layer_name):
+    def reply_to_layer(self, reply_data, layer_name):
         self._request_counter += 1
         vsi_path = f"/vsimem/ohsome_temp_extraction{self._request_counter}.parquet"
         gdal.FileFromMemBuffer(vsi_path, reply_data)
