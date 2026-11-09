@@ -13,7 +13,7 @@ class OhsomeDialog(QDialog, FORM_CLASS):
         super().__init__(parent)
         self.setupUi(self)
         self.iface = iface
-        self.manager = OhsomeDownloadManager
+        self.manager = OhsomeDownloadManager()
 
         self.LineEditApiKey.setText(QgsSettings().value("ohsome/api_key", ""))
         self.PushButtonDownload.clicked.connect(self.pushed_download)
