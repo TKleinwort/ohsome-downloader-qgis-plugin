@@ -1,7 +1,8 @@
 import os
 from qgis.PyQt.QtGui import QIcon
-from qgis.PyQt.QtWidgets import QAction, QMessageBox
+from qgis.PyQt.QtWidgets import QAction
 from .ui.ohsome_dialog import OhsomeDialog
+
 
 class OhsomeDownloaderPlugin:
     def __init__(self, iface):

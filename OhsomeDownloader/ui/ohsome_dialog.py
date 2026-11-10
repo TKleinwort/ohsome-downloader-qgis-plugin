@@ -8,8 +8,9 @@ FORM_CLASS, _ = uic.loadUiType(
     os.path.join(os.path.dirname(__file__), "ohsome_dialog.ui")
 )
 
+
 class OhsomeDialog(QDialog, FORM_CLASS):
-    def __init__(self, iface, parent = None):
+    def __init__(self, iface, parent=None):
         super().__init__(parent)
         self.setupUi(self)
         self.iface = iface
@@ -23,7 +24,7 @@ class OhsomeDialog(QDialog, FORM_CLASS):
         api_key_entry = self.LineEditApiKey.text().strip() or None
         QgsSettings().setValue("ohsome/api_key", api_key_entry or "")
         try:
-            data = self.manager.fetch_data(api_key = api_key_entry)
+            data = self.manager.fetch_data(api_key=api_key_entry)
             layer = self.manager.reply_to_layer(data, "ohsome_buildings_heidelberg")
             QgsProject.instance().addMapLayer(layer)
         except Exception as exc:
