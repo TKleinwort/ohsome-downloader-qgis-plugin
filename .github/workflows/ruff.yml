@@ -11,11 +11,11 @@ jobs:
       - uses: actions/checkout@v4
       - uses: astral-sh/ruff-action@v3
         with:
-          src: ohsome_downloader
+          src: OhsomeDownloader
           version: "0.14.7"
           args: format --check
       - uses: astral-sh/ruff-action@v3
         with:
-          src: ohsome_downloader
+          src: OhsomeDownloader
           version: "0.14.7"
           args: check
