@@ -1,0 +1,7 @@
+[project]
+name = "ohsome-downloader"
+version = "0.1.0"
+
+[tool.ruff]
+exclude = ["*UI.py"]
+line-length = 100
