@@ -4,9 +4,7 @@ from qgis.PyQt.QtWidgets import QDialog
 from qgis.core import QgsProject, QgsSettings
 from ..core.ohsome_download_manager import OhsomeDownloadManager
 
-FORM_CLASS, _ = uic.loadUiType(
-    os.path.join(os.path.dirname(__file__), "ohsome_dialog.ui")
-)
+FORM_CLASS, _ = uic.loadUiType(os.path.join(os.path.dirname(__file__), "ohsome_dialog.ui"))
 
 
 class OhsomeDialog(QDialog, FORM_CLASS):
