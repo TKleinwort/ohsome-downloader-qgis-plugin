@@ -25,6 +25,13 @@
     </widget>
    </item>
    <item>
+    <widget class="QLineEdit" name="LineEditFilter">
+     <property name="placeholderText">
+      <string>Insert the Ohsome Filter here ...</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QDateEdit" name="DateEdit">
      <property name="minimumDateTime">
       <datetime>
