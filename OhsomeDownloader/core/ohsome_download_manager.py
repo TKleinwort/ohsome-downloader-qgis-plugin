@@ -16,9 +16,10 @@ class OhsomeDownloadManager:
         self,
         ohsome_filter: str = "building=* and building!=no and geometry:polygon",
         time_value: str = "latest",
+        extent: list = [8.622, 49.380, 8.802, 49.440],
     ):
         request_body = {
-            "aoi": [8.622, 49.380, 8.802, 49.440],
+            "aoi": extent,
             "filter": ohsome_filter,
             "time": time_value,
             "clip": True,
