@@ -16,7 +16,7 @@ class OhsomeDownloadManager:
         request_body = {
             "aoi": [8.622, 49.380, 8.802, 49.440],
             "filter": "building=* and building!=no and geometry:polygon",
-            "time":time_value,
+            "time": time_value,
             "clip": True,
         }
         return request_body

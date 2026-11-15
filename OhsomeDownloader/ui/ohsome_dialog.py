@@ -2,7 +2,7 @@ import os
 from qgis.PyQt import uic
 from qgis.PyQt.QtWidgets import QDialog
 from qgis.core import QgsProject, QgsSettings
-from qgis.PyQt.core import QDate
+from qgis.PyQt.QtCore import QDate
 from ..core.ohsome_download_manager import OhsomeDownloadManager
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(os.path.dirname(__file__), "ohsome_dialog.ui"))
@@ -17,7 +17,7 @@ class OhsomeDialog(QDialog, FORM_CLASS):
 
         self.LineEditApiKey.setText(QgsSettings().value("ohsome/api_key", ""))
         self.DateEdit.setDate(QDate.currentDate())
-        self.DateEdit.setMaximmumDate(QDate.currentDate())
+        self.DateEdit.setMaximumDate(QDate.currentDate())
         self.PushButtonDownload.clicked.connect(self.pushed_download)
         self.PushButtonClose.clicked.connect(self.close)
 
