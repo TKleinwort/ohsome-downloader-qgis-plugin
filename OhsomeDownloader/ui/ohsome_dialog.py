@@ -2,6 +2,7 @@ import os
 from qgis.PyQt import uic
 from qgis.PyQt.QtWidgets import QDialog
 from qgis.core import QgsProject, QgsSettings
+from qgis.PyQt.core import QDate
 from ..core.ohsome_download_manager import OhsomeDownloadManager
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(os.path.dirname(__file__), "ohsome_dialog.ui"))
@@ -15,14 +16,18 @@ class OhsomeDialog(QDialog, FORM_CLASS):
         self.manager = OhsomeDownloadManager()
 
         self.LineEditApiKey.setText(QgsSettings().value("ohsome/api_key", ""))
+        self.DateEdit.setDate(QDate.currentDate())
+        self.DateEdit.setMaximmumDate(QDate.currentDate())
         self.PushButtonDownload.clicked.connect(self.pushed_download)
         self.PushButtonClose.clicked.connect(self.close)
 
     def pushed_download(self):
         api_key_entry = self.LineEditApiKey.text().strip() or None
         QgsSettings().setValue("ohsome/api_key", api_key_entry or "")
+        time_value_selection = self.DateEdit.date().toString("yyyy-MM-dd")
         try:
-            data = self.manager.fetch_data(api_key=api_key_entry)
+            request_body = self.manager.construct_request_body(time_value=time_value_selection)
+            data = self.manager.fetch_data(request_body=request_body, api_key=api_key_entry)
             layer = self.manager.reply_to_layer(data, "ohsome_buildings_heidelberg")
             QgsProject.instance().addMapLayer(layer)
         except Exception as exc:
