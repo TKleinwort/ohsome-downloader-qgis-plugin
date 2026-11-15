@@ -12,7 +12,7 @@ class OhsomeDownloadManager:
     def __init__(self):
         self._request_counter = 0
 
-    def construct_request_body(self, time_value):
+    def construct_request_body(self, time_value: str = "latest"):
         request_body = {
             "aoi": [8.622, 49.380, 8.802, 49.440],
             "filter": "building=* and building!=no and geometry:polygon",
