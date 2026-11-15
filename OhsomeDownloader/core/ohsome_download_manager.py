@@ -8,17 +8,20 @@ from osgeo import gdal
 class OhsomeDownloadManager:
     OHSOME_BASE_URL = "https://api.heigit.org/ohsome-api/v2-rc"
     OHSOME_EXTRACTION_ENDPOINT = "extraction/features.parquet"
-    HARDCODE_BODY = {
-        "aoi": [8.622, 49.380, 8.802, 49.440],
-        "filter": "building=* and building!=no and geometry:polygon",
-        "time": "latest",
-        "clip": True,
-    }
 
     def __init__(self):
         self._request_counter = 0
 
-    def fetch_data(self, api_key):
+    def construct_request_body(self, aoi: list[float]):
+        request_body = {
+            "aoi": aoi,
+            "filter": "building=* and building!=no and geometry:polygon",
+            "time": "latest",
+            "clip": True,
+        }
+        return request_body
+
+    def fetch_data(self, request_body, api_key):
         complete_url = f"{self.OHSOME_BASE_URL}/{self.OHSOME_EXTRACTION_ENDPOINT}"
 
         request = QNetworkRequest(QUrl(complete_url))
@@ -27,7 +30,7 @@ class OhsomeDownloadManager:
 
         request.setRawHeader(b"authorization", api_key.encode("utf-8"))
 
-        payload = json.dumps(self.HARDCODE_BODY).encode("utf-8")
+        payload = json.dumps(request_body).encode("utf-8")
 
         blocking_request = QgsBlockingNetworkRequest()
         blocking_request.post(request, payload)
