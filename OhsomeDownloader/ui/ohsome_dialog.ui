@@ -25,7 +25,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QDateEdit" name="dateEdit">
+    <widget class="QDateEdit" name="DateEdit">
      <property name="minimumDateTime">
       <datetime>
        <hour>22</hour>
