@@ -24,9 +24,12 @@ class OhsomeDialog(QDialog, FORM_CLASS):
     def pushed_download(self):
         api_key_entry = self.LineEditApiKey.text().strip() or None
         QgsSettings().setValue("ohsome/api_key", api_key_entry or "")
+        inserted_ohsome_filter = self.LineEditFilter.text().strip() or None
         time_value_selection = self.DateEdit.date().toString("yyyy-MM-dd")
         try:
-            request_body = self.manager.construct_request_body(time_value=time_value_selection)
+            request_body = self.manager.construct_request_body(
+                ohsome_filter=inserted_ohsome_filter, time_value=time_value_selection
+            )
             data = self.manager.fetch_data(request_body=request_body, api_key=api_key_entry)
             layer = self.manager.reply_to_layer(data, "ohsome_buildings_heidelberg")
             QgsProject.instance().addMapLayer(layer)
