@@ -12,11 +12,11 @@ class OhsomeDownloadManager:
     def __init__(self):
         self._request_counter = 0
 
-    def construct_request_body(self, aoi: list[float]):
+    def construct_request_body(self, time_value):
         request_body = {
-            "aoi": aoi,
+            "aoi": [8.622, 49.380, 8.802, 49.440],
             "filter": "building=* and building!=no and geometry:polygon",
-            "time": "latest",
+            "time":time_value,
             "clip": True,
         }
         return request_body
