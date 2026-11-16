@@ -32,7 +32,7 @@ class OhsomeDialog(QDialog, FORM_CLASS):
         extent = self.ExtentWidget.outputExtent()
         if extent.isNull() or extent.isEmpty():
             raise ValueError("Please select a correct Extent!")
-        return [extent.xMinimum(), extent.yMinimum(), extent.xMaximum(), extent.yMinimum()]
+        return [extent.xMinimum(), extent.yMinimum(), extent.xMaximum(), extent.yMaximum()]
 
     def pushed_download(self):
         api_key_entry = self.LineEditApiKey.text().strip() or None
