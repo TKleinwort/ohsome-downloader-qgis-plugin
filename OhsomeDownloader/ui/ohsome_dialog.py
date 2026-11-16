@@ -47,7 +47,9 @@ class OhsomeDialog(QDialog, FORM_CLASS):
                 extent=inserted_extent,
             )
             data = self.manager.fetch_data(request_body=request_body, api_key=api_key_entry)
-            layer = self.manager.reply_to_layer(data, layer_name=f"{inserted_ohsome_filter} ({time_value_selection})")
+            layer = self.manager.reply_to_layer(
+                data, layer_name=f"{inserted_ohsome_filter} ({time_value_selection})"
+            )
             QgsProject.instance().addMapLayer(layer)
         except Exception as exc:
             self.iface.messageBar().pushCritical("ohsome", str(exc))
