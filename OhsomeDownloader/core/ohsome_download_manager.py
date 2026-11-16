@@ -8,17 +8,25 @@ from osgeo import gdal
 class OhsomeDownloadManager:
     OHSOME_BASE_URL = "https://api.heigit.org/ohsome-api/v2-rc"
     OHSOME_EXTRACTION_ENDPOINT = "extraction/features.parquet"
-    HARDCODE_BODY = {
-        "aoi": [8.622, 49.380, 8.802, 49.440],
-        "filter": "building=* and building!=no and geometry:polygon",
-        "time": "latest",
-        "clip": True,
-    }
 
     def __init__(self):
         self._request_counter = 0
 
-    def fetch_data(self, api_key):
+    def construct_request_body(
+        self,
+        ohsome_filter: str = "building=* and building!=no and geometry:polygon",
+        time_value: str = "latest",
+        extent: list = [8.622, 49.380, 8.802, 49.440],
+    ):
+        request_body = {
+            "aoi": extent,
+            "filter": ohsome_filter,
+            "time": time_value,
+            "clip": True,
+        }
+        return request_body
+
+    def fetch_data(self, request_body, api_key):
         complete_url = f"{self.OHSOME_BASE_URL}/{self.OHSOME_EXTRACTION_ENDPOINT}"
 
         request = QNetworkRequest(QUrl(complete_url))
@@ -27,7 +35,7 @@ class OhsomeDownloadManager:
 
         request.setRawHeader(b"authorization", api_key.encode("utf-8"))
 
-        payload = json.dumps(self.HARDCODE_BODY).encode("utf-8")
+        payload = json.dumps(request_body).encode("utf-8")
 
         blocking_request = QgsBlockingNetworkRequest()
         blocking_request.post(request, payload)
@@ -35,8 +43,11 @@ class OhsomeDownloadManager:
         return bytes(blocking_request.reply().content())
 
     def reply_to_layer(self, reply_data, layer_name):
-        self._request_counter += 1
-        vsi_path = f"/vsimem/ohsome_temp_extraction{self._request_counter}.parquet"
+        while True:
+            self._request_counter += 1
+            vsi_path = f"/vsimem/ohsome_temp_extraction{self._request_counter}.parquet"
+            if gdal.VSIStatL(vsi_path) is None:
+                break
         gdal.FileFromMemBuffer(vsi_path, reply_data)
 
         layer = QgsVectorLayer(vsi_path, layer_name, "ogr")
