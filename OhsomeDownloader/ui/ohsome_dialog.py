@@ -22,7 +22,7 @@ class OhsomeDialog(QDialog, FORM_CLASS):
         self.ExtentWidget.setOutputCrs(QgsCoordinateReferenceSystem("EPSG:4326"))
         self.ExtentWidget.setCurrentExtent(
             self.iface.mapCanvas().extent(),
-            self.iface.mapCanvas().mapSettings().destinationCRS(),
+            self.iface.mapCanvas().mapSettings().destinationCrs(),
         )
 
         self.PushButtonDownload.clicked.connect(self.pushed_download)
