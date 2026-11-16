@@ -1,7 +1,7 @@
 import os
 from qgis.PyQt import uic
 from qgis.PyQt.QtWidgets import QDialog
-from qgis.core import QgsProject, QgsSettings
+from qgis.core import QgsCoordinateReferenceSystem, QgsProject, QgsSettings
 from qgis.PyQt.QtCore import QDate
 from ..core.ohsome_download_manager import OhsomeDownloadManager
 
@@ -18,17 +18,33 @@ class OhsomeDialog(QDialog, FORM_CLASS):
         self.LineEditApiKey.setText(QgsSettings().value("ohsome/api_key", ""))
         self.DateEdit.setDate(QDate.currentDate())
         self.DateEdit.setMaximumDate(QDate.currentDate())
+        self.ExtentWidget.setMapCanvas(self.iface.mapCanvas())
+        self.ExtentWidget.setOutputCrs(QgsCoordinateReferenceSystem("EPSG:4326"))
+        self.ExtentWidget.setCurrentExtent(
+            self.iface.mapCanvas().extent(),
+            self.iface.mapCanvas().mapSettings().destinationCRS(),
+        )
+
         self.PushButtonDownload.clicked.connect(self.pushed_download)
         self.PushButtonClose.clicked.connect(self.close)
+
+    def get_extent(self):
+        extent = self.ExtentWidget.outputExtent()
+        if extent.isNull() or extent.isempty():
+            raise ValueError("Please select a correct Extent!")
+        return [extent.xMinimum, extent.yMinimum, extent.xMaximum, extent.yMinimum]
 
     def pushed_download(self):
         api_key_entry = self.LineEditApiKey.text().strip() or None
         QgsSettings().setValue("ohsome/api_key", api_key_entry or "")
+        inserted_extent = self.get_extent()
         inserted_ohsome_filter = self.LineEditFilter.text().strip() or None
         time_value_selection = self.DateEdit.date().toString("yyyy-MM-dd")
         try:
             request_body = self.manager.construct_request_body(
-                ohsome_filter=inserted_ohsome_filter, time_value=time_value_selection
+                ohsome_filter=inserted_ohsome_filter,
+                time_value=time_value_selection,
+                extent=inserted_extent,
             )
             data = self.manager.fetch_data(request_body=request_body, api_key=api_key_entry)
             layer = self.manager.reply_to_layer(data, "ohsome_buildings_heidelberg")
