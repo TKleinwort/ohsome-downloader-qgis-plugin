@@ -25,6 +25,16 @@
     </widget>
    </item>
    <item>
+    <widget class="QgsExtentWidget" name="ExtentWidget" native="true">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>60</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QLineEdit" name="LineEditFilter">
      <property name="placeholderText">
       <string>Insert the Ohsome Filter here ...</string>
@@ -35,7 +45,7 @@
     <widget class="QDateEdit" name="DateEdit">
      <property name="minimumDateTime">
       <datetime>
-       <hour>22</hour>
+       <hour>18</hour>
        <minute>0</minute>
        <second>0</second>
        <year>2007</year>
@@ -74,6 +84,14 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QgsExtentWidget</class>
+   <extends>QWidget</extends>
+   <header>qgis.gui</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
