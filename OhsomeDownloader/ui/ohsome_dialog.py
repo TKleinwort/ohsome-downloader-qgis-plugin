@@ -63,6 +63,7 @@ class OhsomeDialog(QDialog, FORM_CLASS):
         QgsSettings().setValue("ohsome/api_key", api_key_entry or "")
         inserted_extent = self.get_extent()
         inserted_ohsome_filter = self.ComboBoxTopic.currentData()
+        topic_name = self.ComboBoxTopic.currentText()
         time_value_selection = self.DateEdit.date().toString("yyyy-MM-dd")
         try:
             request_body = self.manager.construct_request_body(
@@ -72,7 +73,7 @@ class OhsomeDialog(QDialog, FORM_CLASS):
             )
             data = self.manager.fetch_data(request_body=request_body, api_key=api_key_entry)
             layer = self.manager.reply_to_layer(
-                data, layer_name=f"{inserted_ohsome_filter} ({time_value_selection})"
+                data, layer_name=f"{topic_name} ({time_value_selection})"
             )
             QgsProject.instance().addMapLayer(layer)
         except Exception as exc:
