@@ -42,6 +42,17 @@ class OhsomeDialog(QDialog, FORM_CLASS):
             except RuntimeError:
                 pass
 
+        topics = json.loads(settings.value("ohsome/topics", "{}"))
+        self.ComboBoxTopics.clear()
+        for topic in sorted(topics.values(), key=lambda t: t["name"]):
+            self.ComboBoxTopics.addItem(topic["name"], topic["filter"])
+            self.ComboBoxTopics.setItemData(
+                self.ComboBoxTopics.count() -1,
+                topic["description"],
+                Qt.ItemDataRole.ToolTipRole,
+            )
+
+
     def get_extent(self):
         extent = self.ExtentWidget.outputExtent()
         if extent.isNull() or extent.isEmpty():
