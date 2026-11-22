@@ -19,6 +19,7 @@ class OhsomeDownloadManager:
 
         request = QNetworkRequest(QUrl(complete_topic_url))
         request.setRawHeader(b"Accept", b"application/json")
+        request.setRawHeader(b"Accept-Language", b"en")
 
         blocking_request = QgsBlockingNetworkRequest()
         error = blocking_request.get(request)
