@@ -1,8 +1,9 @@
 import os
+import json
 from qgis.PyQt import uic
 from qgis.PyQt.QtWidgets import QDialog
 from qgis.core import QgsCoordinateReferenceSystem, QgsProject, QgsSettings
-from qgis.PyQt.QtCore import QDate
+from qgis.PyQt.QtCore import QDate, Qt
 from ..core.ohsome_download_manager import OhsomeDownloadManager
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(os.path.dirname(__file__), "ohsome_dialog.ui"))
@@ -14,6 +15,7 @@ class OhsomeDialog(QDialog, FORM_CLASS):
         self.setupUi(self)
         self.iface = iface
         self.manager = OhsomeDownloadManager()
+        self.get_topics()
 
         self.LineEditApiKey.setText(QgsSettings().value("ohsome/api_key", ""))
         self.DateEdit.setDate(QDate.currentDate())
@@ -27,6 +29,18 @@ class OhsomeDialog(QDialog, FORM_CLASS):
 
         self.PushButtonDownload.clicked.connect(self.pushed_download)
         self.PushButtonClose.clicked.connect(self.close)
+
+    def get_topics(self):
+        settings = QgsSettings
+        today = QDate.currentDate().toString(Qt.DateFormat.ISODate)
+
+        if settings.value("ohsome/topics_date", "") != today:
+            try:
+                topics = self.manager.request_topics()
+                settings.setValue("ohsome/topics", json.dumps(topics))
+                settings.setValue("ohsome/topics_date", today)
+            except RuntimeError:
+                pass
 
     def get_extent(self):
         extent = self.ExtentWidget.outputExtent()
