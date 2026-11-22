@@ -43,8 +43,11 @@ class OhsomeDownloadManager:
         return bytes(blocking_request.reply().content())
 
     def reply_to_layer(self, reply_data, layer_name):
-        self._request_counter += 1
-        vsi_path = f"/vsimem/ohsome_temp_extraction{self._request_counter}.parquet"
+        while True:
+            self._request_counter += 1
+            vsi_path = f"/vsimem/ohsome_temp_extraction{self._request_counter}.parquet"
+            if gdal.VSIStatL(vsi_path) is None:
+                break
         gdal.FileFromMemBuffer(vsi_path, reply_data)
 
         layer = QgsVectorLayer(vsi_path, layer_name, "ogr")

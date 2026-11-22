@@ -35,10 +35,10 @@ class OhsomeDialog(QDialog, FORM_CLASS):
         return [extent.xMinimum(), extent.yMinimum(), extent.xMaximum(), extent.yMaximum()]
 
     def pushed_download(self):
-        api_key_entry = self.LineEditApiKey.text().strip() or None
+        api_key_entry = self.LineEditApiKey.text().strip()
         QgsSettings().setValue("ohsome/api_key", api_key_entry or "")
         inserted_extent = self.get_extent()
-        inserted_ohsome_filter = self.LineEditFilter.text().strip() or None
+        inserted_ohsome_filter = self.LineEditFilter.text().strip()
         time_value_selection = self.DateEdit.date().toString("yyyy-MM-dd")
         try:
             request_body = self.manager.construct_request_body(
@@ -47,7 +47,9 @@ class OhsomeDialog(QDialog, FORM_CLASS):
                 extent=inserted_extent,
             )
             data = self.manager.fetch_data(request_body=request_body, api_key=api_key_entry)
-            layer = self.manager.reply_to_layer(data, "ohsome_buildings_heidelberg")
+            layer = self.manager.reply_to_layer(
+                data, layer_name=f"{inserted_ohsome_filter} ({time_value_selection})"
+            )
             QgsProject.instance().addMapLayer(layer)
         except Exception as exc:
             self.iface.messageBar().pushCritical("ohsome", str(exc))
