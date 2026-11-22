@@ -10,9 +10,7 @@ class OhsomeDownloaderPlugin:
         self.ohsome_downloader_dir = os.path.dirname(__file__)
 
     def initGui(self):
-        icon = QIcon(
-            os.path.join(self.ohsome_downloader_dir, "resources", "img", "icon.png")
-        )
+        icon = QIcon(os.path.join(self.ohsome_downloader_dir, "resources", "img", "icon.png"))
         self.action = QAction(icon, "OhsomeDownlaoder", self.iface.mainWindow())
         self.action.triggered.connect(self.run)
         self.iface.addToolBarIcon(self.action)

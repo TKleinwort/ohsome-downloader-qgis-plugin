@@ -22,9 +22,7 @@ class OhsomeDownloadManager:
         complete_url = f"{self.OHSOME_BASE_URL}/{self.OHSOME_EXTRACTION_ENDPOINT}"
 
         request = QNetworkRequest(QUrl(complete_url))
-        request.setHeader(
-            QNetworkRequest.KnownHeaders.ContentTypeHeader, "application/json"
-        )
+        request.setHeader(QNetworkRequest.KnownHeaders.ContentTypeHeader, "application/json")
         request.setRawHeader(b"accept", b"application/octet-stream")
 
         request.setRawHeader(b"authorization", api_key.encode("utf-8"))
