@@ -40,7 +40,7 @@
    </property>
    <property name="minimumDateTime">
     <datetime>
-     <hour>18</hour>
+     <hour>16</hour>
      <minute>0</minute>
      <second>0</second>
      <year>2007</year>
@@ -130,19 +130,6 @@
     <string>Extent:</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="LineEditFilter">
-   <property name="geometry">
-    <rect>
-     <x>70</x>
-     <y>100</y>
-     <width>311</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <property name="placeholderText">
-    <string>Insert the Ohsome Filter here ...</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="LabelFilter">
    <property name="geometry">
     <rect>
@@ -167,6 +154,19 @@
    </property>
    <property name="text">
     <string>Snapshot:</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="ComboBoxTopic">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>100</y>
+     <width>311</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="placeholderText">
+    <string>Select the Ohsome Filter here ...</string>
    </property>
   </widget>
  </widget>
