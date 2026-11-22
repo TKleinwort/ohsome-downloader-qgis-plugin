@@ -166,7 +166,7 @@
     </rect>
    </property>
    <property name="placeholderText">
-    <string>Choose or insert the Ohsome Filter here ...</string>
+    <string>Select the Ohsome Filter here ...</string>
    </property>
   </widget>
  </widget>
