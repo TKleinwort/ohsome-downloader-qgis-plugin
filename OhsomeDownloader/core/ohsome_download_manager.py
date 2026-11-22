@@ -26,14 +26,14 @@ class OhsomeDownloadManager:
             raise RuntimeError(f"Topics request failed: {blocking_request.errorMessage()}")
 
         content = bytes(blocking_request.reply().content())
-        return self._parse_topics(json.loads(content))
+        return self._parse_topics_body(json.loads(content))
 
     def _parse_topics_body(self, payload: dict):
-        return{
-            key:{
+        return {
+            key: {
                 "name": topic["name"],
                 "description": topic["description"],
-                "filter": " ".join(topic[filter].split()),
+                "filter": " ".join(topic["filter"].split()),
             }
             for key, topic in payload["result"].items()
         }

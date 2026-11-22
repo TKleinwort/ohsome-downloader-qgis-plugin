@@ -31,7 +31,7 @@ class OhsomeDialog(QDialog, FORM_CLASS):
         self.PushButtonClose.clicked.connect(self.close)
 
     def get_topics(self):
-        settings = QgsSettings
+        settings = QgsSettings()
         today = QDate.currentDate().toString(Qt.DateFormat.ISODate)
 
         if settings.value("ohsome/topics_date", "") != today:
@@ -43,15 +43,14 @@ class OhsomeDialog(QDialog, FORM_CLASS):
                 pass
 
         topics = json.loads(settings.value("ohsome/topics", "{}"))
-        self.ComboBoxTopics.clear()
+        self.ComboBoxTopic.clear()
         for topic in sorted(topics.values(), key=lambda t: t["name"]):
-            self.ComboBoxTopics.addItem(topic["name"], topic["filter"])
-            self.ComboBoxTopics.setItemData(
-                self.ComboBoxTopics.count() -1,
+            self.ComboBoxTopic.addItem(topic["name"], topic["filter"])
+            self.ComboBoxTopic.setItemData(
+                self.ComboBoxTopic.count() - 1,
                 topic["description"],
                 Qt.ItemDataRole.ToolTipRole,
             )
-
 
     def get_extent(self):
         extent = self.ExtentWidget.outputExtent()
@@ -63,7 +62,7 @@ class OhsomeDialog(QDialog, FORM_CLASS):
         api_key_entry = self.LineEditApiKey.text().strip()
         QgsSettings().setValue("ohsome/api_key", api_key_entry or "")
         inserted_extent = self.get_extent()
-        inserted_ohsome_filter = self.LineEditFilter.text().strip()
+        inserted_ohsome_filter = self.ComboBoxTopic.currentData()
         time_value_selection = self.DateEdit.date().toString("yyyy-MM-dd")
         try:
             request_body = self.manager.construct_request_body(
