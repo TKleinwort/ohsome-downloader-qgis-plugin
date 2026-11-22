@@ -8,9 +8,25 @@ from osgeo import gdal
 class OhsomeDownloadManager:
     OHSOME_BASE_URL = "https://api.heigit.org/ohsome-api/v2-rc"
     OHSOME_EXTRACTION_ENDPOINT = "extraction/features.parquet"
+    OHSOME_QUALITY_BASE_URL = "https://api.heigit.org/ohsome-quality-api/v2"
+    OHSOME_TOPICS_ENDPOINT = "metadata/topics"
 
     def __init__(self):
         self._request_counter = 0
+
+    def request_topics(self):
+        complete_topic_url = f"{self.OHSOME_QUALITY_BASE_URL}/{self.OHSOME_TOPICS_ENDPOINT}"
+
+        request = QNetworkRequest(QUrl(complete_topic_url))
+        request.setRawHeader(b"Accept", b"application/json")
+
+        blocking_request = QgsBlockingNetworkRequest()
+        error = blocking_request.get(request)
+        if error != QgsBlockingNetworkRequest.ErrorCode.NoError:
+            raise RuntimeError(f"Topics request failed: {blocking_request.errorMessage()}")
+
+        content = bytes(blocking_request.reply().content())
+        return self. 
 
     def construct_request_body(
         self,
